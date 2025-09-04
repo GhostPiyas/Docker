@@ -1,0 +1,27 @@
+
+version: "3.8"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+
+    # Variables d'environnement de base
+    environment:
+      - TZ=Europe/Paris  # Fuseau horaire à adapter selon votre localisation
+
+    # Volumes montés : adaptation nécessaire aux chemins de votre machine
+    volumes:
+      - /chemin/vers/config:/config   # Dossier de configuration Jellyfin
+      - /chemin/vers/cache:/cache     # Fichiers temporaires et cache
+      - /chemin/vers/media:/media     # Dossier de vos fichiers multimédias
+      - /chemin/vers/raid:/raid       # Exemple : stockage externe ou RAID
+
+    # Ports exposés : accès à l'interface web Jellyfin
+    ports:
+      - "8096:8096"    # Port HTTP principal de Jellyfin
+      # - "8920:8920"  # Port HTTPS (optionnel, requiert config SSL)
+      # - "7359:7359/udp"  # Découverte réseau DLNA (facultatif)
+      # - "1900:1900/udp"  # SSDP pour DLNA (facultatif)
+
+    restart: unless-stopped  # Redémarrage automatique si plantage ou reboot
